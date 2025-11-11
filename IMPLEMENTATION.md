@@ -31,7 +31,7 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 
 ### Architecture Design Decisions
 
-![alt text](image-4.png)
+![alt text](Architecture_Diagram.png)
 
 **VPC Design:**
 - Chose 2 AZs for high availability while keeping costs reasonable for portfolio project
@@ -57,7 +57,7 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 - Defined 1 Public Subnet and 1 Private Subnet, each AZ will have their own
 
 **Code Snippet:**
-![alt text](image-3.png)
+![alt text](vpc_config.png)
 
 **Decision Point: Realized CDK automatically creates Internet Gateway...**
 In terraform you have to create/define the IGW yourself, one of the benefits of CDK is CDK automatically handles the IGW for you. Typically you want to double check any automatic/default resources due to security reasons, but IGW is not providing access to resources, it is simply a way into the vpc.
@@ -70,7 +70,7 @@ Configured two ingress rules to balance accessibility with security:
 
 **Decision Point:** Initially considered allowing SSH from anywhere, but restricted it to my specific IP following the principle of least privilege. This demonstrates proper security practices for production environments.
 
-![alt text](image-5.png)
+TechHealth-Project/Screenshots/EC2_SecurityGroups.png
 
 **RDS Security Group:**
 Implemented defense-in-depth by isolating the database layer:
