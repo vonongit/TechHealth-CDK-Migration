@@ -291,33 +291,33 @@ name: Deploy Infrastructure
 # Run this workflow when you push code
 on:
   push:
-    branches: [ main ] //When making a **push** to main branch...
+    branches: [ main ] 
 
-jobs: //A job is a series of steps to complete a task
+jobs: 
   deploy:
-    runs-on: ubuntu-latest //Run infrastructure on latest version of Ubuntu
+    runs-on: ubuntu-latest 
     
-    steps: //A step is one part of the overall job
-      # Get your code //Read the pushed code
-      - uses: actions/checkout@v4 //Validate the code
+    steps: 
+      # Get your code 
+      - uses: actions/checkout@v4 
       
       # Install Node.js
-      - uses: actions/setup-node@v4 //Install Node.js
+      - uses: actions/setup-node@v4 
         with:
-          node-version: '18' //Version
+          node-version: '18' 
       
       # Install your project dependencies
-      - run: npm install //run npm install
+      - run: npm install 
       
       # Check if CDK code is valid
-      - run: npm run cdk synth //Run Synth to validate the code
+      - run: npm run cdk synth 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
       # Deploy to AWS
-      - run: npm run cdk deploy -- --require-approval never //If all is sucessful then code will automatically be deployed to AWS
+      - run: npm run cdk deploy -- --require-approval never 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
