@@ -4,56 +4,74 @@
 
 Converting a manually-deployed healthcare platform from click-ops to Infrastructure as Code using AWS CDK.
 
+---
+
 ## The Challenge
 
 TechHealth's AWS infrastructure was originally deployed through the AWS console (click-ops), making it difficult to track changes, replicate environments, or roll back updates. This project demonstrates migrating that infrastructure to code using AWS CDK.
 
+---
+
 ## What I Built
 
-![architecture-diagram](Screenshots/architecture-diagram.png)
+![Architecture Diagram](Screenshots/architecture-diagram.png)
 
 Replicated and automated deployment of a full healthcare platform infrastructure:
 
-- **EC2 Instances**: Application servers hosting the platform
-- **RDS Database**: PostgreSQL/MySQL database for patient data
-- **VPC & Networking**: Isolated network with public/private subnets
-- **Security Groups**: Network security rules controlling access
-- **IAM Roles**: Role-based access control between resources
+- **EC2 Instances** - Application servers hosting the platform
+- **RDS Database** - PostgreSQL/MySQL database for patient data
+- **VPC & Networking** - Isolated network with public/private subnets
+- **Security Groups** - Network security rules controlling access
+- **IAM Roles** - Role-based access control between resources
+
+---
 
 ## Technologies Used
 
 - **AWS CDK** (Cloud Development Kit)
 - **TypeScript** (CDK language)
-- **AWS Services**: EC2, RDS, VPC, IAM
+- **AWS Services** - EC2, RDS, VPC, IAM
 - **CloudFormation** (underlying deployment)
 - **GitHub Actions** (CI/CD pipeline)
-- **Git** for version control
+- **Git** (version control)
+
+---
 
 ## Key Accomplishments
 
-✅ **Reproduced existing infrastructure** - Analyzed click-ops setup and recreated it entirely as code  
-✅ **Version control** - Infrastructure changes now tracked in Git with full history  
-✅ **Repeatability** - Can deploy/tear down entire environment consistently  
-✅ **CI/CD Pipeline** - Automated validation and deployment on every push  
-✅ **Documentation** - All resources defined in code serve as living documentation  
+✅ **Reproduced existing infrastructure** - Analyzed click-ops setup and recreated it entirely as code
+
+✅ **Version control** - Infrastructure changes now tracked in Git with full history
+
+✅ **Repeatability** - Can deploy/tear down entire environment consistently
+
+✅ **CI/CD Pipeline** - Automated validation and deployment on every push
+
+✅ **Documentation** - All resources defined in code serve as living documentation
+
+---
 
 ## Technical Implementation
 
 ### Infrastructure Design
+
 - Multi-tier architecture with public and private subnets
 - Security groups implementing least-privilege access
 - RDS in private subnet, only accessible from application tier
 - IAM roles following principle of least privilege
 
 ### CI/CD Pipeline
+
 Implemented GitHub Actions pipeline that automatically validates and deploys infrastructure changes:
 
 **Pipeline Flow:**
+
 1. Code pushed to `main` branch triggers workflow
 2. Validates TypeScript compilation and CDK synthesis
 3. Automatically deploys changes to AWS
 
 **Benefits:**
+
 - Catches errors before deployment
 - Consistent deployment process
 - Full audit trail in GitHub Actions
@@ -62,56 +80,62 @@ Implemented GitHub Actions pipeline that automatically validates and deploys inf
 Setup: Add AWS credentials as GitHub secrets, and the pipeline handles the rest automatically.
 
 ### Deployment Process
+
 Implemented full IaC workflow:
-```bash
-cdk bootstrap  # One-time environment setup
+```bashcdk bootstrap  # One-time environment setup
 cdk synth      # Generate CloudFormation templates
 cdk diff       # Preview changes before deployment
 cdk deploy     # Deploy infrastructure
-```
 
 ### Challenges Solved
+
 **Detailed in [IMPLEMENTATION.md](IMPLEMENTATION.md):**
-- **CDK Project Structure**: Learned proper CDK initialization requirements
-- **Bootstrap Stack Failures**: Resolved S3 bucket conflicts from failed attempts
-- **S3 Versioning**: Handled versioned bucket deletion during teardown
-- **TypeScript Syntax**: Adapted from Terraform to TypeScript's type-safe approach
-- **Resource Dependencies**: Properly ordered resource creation/deletion
-- **State Management**: Managed CloudFormation stacks and CDK bootstrap resources
+
+- **CDK Project Structure** - Learned proper CDK initialization requirements
+- **Bootstrap Stack Failures** - Resolved S3 bucket conflicts from failed attempts
+- **S3 Versioning** - Handled versioned bucket deletion during teardown
+- **TypeScript Syntax** - Adapted from Terraform to TypeScript's type-safe approach
+- **Resource Dependencies** - Properly ordered resource creation/deletion
+- **State Management** - Managed CloudFormation stacks and CDK bootstrap resources
+
+---
 
 ## Running This Project
 
 **Prerequisites:** Node.js, AWS CLI, AWS CDK, configured AWS credentials
 
 **Deploy:**
-```bash
-npm install
+```bashnpm install
 cdk bootstrap aws://ACCOUNT-ID/AWS-REGION
 cdk deploy --all
-```
 
 **Teardown:**
-```bash
-cdk destroy --all
-```
+```bashcdk destroy --all
+
+---
 
 ## What This Demonstrates
 
-**Cloud Infrastructure Skills:**
+### Cloud Infrastructure Skills
+
 - Designing multi-tier AWS architectures
 - Implementing network security best practices
 - Managing infrastructure lifecycle
 
-**DevOps/IaC Skills:**
+### DevOps/IaC Skills
+
 - Infrastructure as Code with AWS CDK
 - CloudFormation stack management
 - CI/CD pipeline implementation
 - Version control for infrastructure
 
-**Problem Solving:**
+### Problem Solving
+
 - Migrating legacy infrastructure to modern practices
 - Troubleshooting deployment issues
 - Understanding cloud resource dependencies
+
+---
 
 ## Future Enhancements
 
@@ -120,6 +144,8 @@ cdk destroy --all
 - [ ] Add monitoring and alerting with CloudWatch
 - [ ] Implement automated backups for RDS
 - [ ] Implement Auto Scaling Groups (ASG) for potential traffic spikes
+
+---
 
 ## Conclusion
 
@@ -136,4 +162,10 @@ This foundation positions the organization to rapidly innovate while maintaining
 
 ---
 
-**Travon Mayo** | [GitHub](https://github.com/vonongit) | [LinkedIn](https://www.linkedin.com/in/travon-mayo/) | [Email](mailto:travondm2@gmail.com)
+## Connect With Me
+
+**Travon Mayo**
+
+[![GitHub](https://img.shields.io/badge/GitHub-vonongit-181717?style=flat&logo=github)](https://github.com/vonongit)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-travon--mayo-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/travon-mayo/)
+[![Email](https://img.shields.io/badge/Email-travondm2%40gmail.com-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:travondm2@gmail.com)
