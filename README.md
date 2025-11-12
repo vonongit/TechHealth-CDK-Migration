@@ -164,8 +164,4 @@ This foundation positions the organization to rapidly innovate while maintaining
 
 ## Connect With Me
 
-**Travon Mayo**
-
-[![GitHub](https://img.shields.io/badge/GitHub-vonongit-181717?style=flat&logo=github)](https://github.com/vonongit)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-travon--mayo-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/travon-mayo/)
-[![Email](https://img.shields.io/badge/Email-travondm2%40gmail.com-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:travondm2@gmail.com)
+**Travon Mayo** | [GitHub](https://github.com/vonongit) | [LinkedIn](https://www.linkedin.com/in/travon-mayo/) | [Email](mailto:travondm2@gmail.com)

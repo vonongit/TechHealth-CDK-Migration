@@ -545,8 +545,4 @@ If I were to expand this project, I would:
 
 ## Connect With Me
 
-**Travon Mayo**
-
-📧 **Email:** travondm2@gmail.com  
-💻 **GitHub:** [github.com/vonongit](https://github.com/vonongit/TechHealth-CDK-Migration)  
-💼 **LinkedIn:** [linkedin.com/in/travon-mayo](https://www.linkedin.com/in/travon-mayo/)
+**Travon Mayo** | [GitHub](https://github.com/vonongit) | [LinkedIn](https://www.linkedin.com/in/travon-mayo/) | [Email](mailto:travondm2@gmail.com)
