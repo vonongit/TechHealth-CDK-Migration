@@ -58,7 +58,7 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 - Defined 1 Public Subnet and 1 Private Subnet, each AZ will have their own
 
 **Code Snippet:**
-![VPC Configuration](Screenshots/vpc_config.png)
+![vpc config](Screenshots/vpc-config.png)
 
 **Decision Point: Realized CDK automatically creates Internet Gateway...**
 In terraform you have to create/define the IGW yourself, one of the benefits of CDK is CDK automatically handles the IGW for you. Typically you want to double check any automatic/default resources due to security reasons, but IGW is not providing access to resources, it is simply a way into the vpc.
