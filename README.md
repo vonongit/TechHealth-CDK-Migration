@@ -1,5 +1,7 @@
 # TechHealth Infrastructure Migration
 
+[![Deploy Infrastructure](https://github.com/vonongit/TechHealth-CDK-Migration/actions/workflows/deploy.yml/badge.svg)](https://github.com/vonongit/TechHealth-CDK-Migration/actions/workflows/deploy.yml)
+
 Converting a manually-deployed healthcare platform from click-ops to Infrastructure as Code using AWS CDK.
 
 ## The Challenge
@@ -8,7 +10,7 @@ TechHealth's AWS infrastructure was originally deployed through the AWS console 
 
 ## What I Built
 
-![alt text](image.png)
+![architecture-diagram](Screenshots/architecture-diagram.png)
 
 Replicated and automated deployment of a full healthcare platform infrastructure:
 
@@ -24,6 +26,7 @@ Replicated and automated deployment of a full healthcare platform infrastructure
 - **TypeScript** (CDK language)
 - **AWS Services**: EC2, RDS, VPC, IAM
 - **CloudFormation** (underlying deployment)
+- **GitHub Actions** (CI/CD pipeline)
 - **Git** for version control
 
 ## Key Accomplishments
@@ -31,6 +34,7 @@ Replicated and automated deployment of a full healthcare platform infrastructure
 ✅ **Reproduced existing infrastructure** - Analyzed click-ops setup and recreated it entirely as code  
 ✅ **Version control** - Infrastructure changes now tracked in Git with full history  
 ✅ **Repeatability** - Can deploy/tear down entire environment consistently  
+✅ **CI/CD Pipeline** - Automated validation and deployment on every push  
 ✅ **Documentation** - All resources defined in code serve as living documentation  
 
 ## Technical Implementation
@@ -41,6 +45,22 @@ Replicated and automated deployment of a full healthcare platform infrastructure
 - RDS in private subnet, only accessible from application tier
 - IAM roles following principle of least privilege
 
+### CI/CD Pipeline
+Implemented GitHub Actions pipeline that automatically validates and deploys infrastructure changes:
+
+**Pipeline Flow:**
+1. Code pushed to `main` branch triggers workflow
+2. Validates TypeScript compilation and CDK synthesis
+3. Automatically deploys changes to AWS
+
+**Benefits:**
+- Catches errors before deployment
+- Consistent deployment process
+- Full audit trail in GitHub Actions
+- Eliminates manual deployment steps
+
+Setup: Add AWS credentials as GitHub secrets, and the pipeline handles the rest automatically.
+
 ### Deployment Process
 Implemented full IaC workflow:
 ```bash
@@ -50,8 +70,12 @@ cdk diff       # Preview changes before deployment
 cdk deploy     # Deploy infrastructure
 ```
 
-### Challenges Solved (Explained further in Process.md)
-- **S3 Versioning**: Learned to handle versioned bucket deletion during teardown
+### Challenges Solved
+**Detailed in [IMPLEMENTATION.md](IMPLEMENTATION.md):**
+- **CDK Project Structure**: Learned proper CDK initialization requirements
+- **Bootstrap Stack Failures**: Resolved S3 bucket conflicts from failed attempts
+- **S3 Versioning**: Handled versioned bucket deletion during teardown
+- **TypeScript Syntax**: Adapted from Terraform to TypeScript's type-safe approach
 - **Resource Dependencies**: Properly ordered resource creation/deletion
 - **State Management**: Managed CloudFormation stacks and CDK bootstrap resources
 
@@ -81,6 +105,7 @@ cdk destroy --all
 **DevOps/IaC Skills:**
 - Infrastructure as Code with AWS CDK
 - CloudFormation stack management
+- CI/CD pipeline implementation
 - Version control for infrastructure
 
 **Problem Solving:**
@@ -90,11 +115,11 @@ cdk destroy --all
 
 ## Future Enhancements
 
-- [ ] Add CI/CD pipeline for automated deployments
+- [x] Add CI/CD pipeline for automated deployments
 - [ ] Implement multi-environment support (dev/staging/prod)
 - [ ] Add monitoring and alerting with CloudWatch
 - [ ] Implement automated backups for RDS
-- [ ] Implement Auto Scailing Groups (ASG) for potential traffic spikes
+- [ ] Implement Auto Scaling Groups (ASG) for potential traffic spikes
 
 ## Conclusion
 
@@ -111,4 +136,4 @@ This foundation positions the organization to rapidly innovate while maintaining
 
 ---
 
-**Travon Mayo** | [GitHub](https://github.com/travonmayo) | [LinkedIn](https://linkedin.com/in/travonmayo)# Clickops-To-CDK-IAC-Project
+**Travon Mayo** | [GitHub](https://github.com/vonongit) | [LinkedIn](https://www.linkedin.com/in/travon-mayo/) | [Email](mailto:travondm2@gmail.com)
