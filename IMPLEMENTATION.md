@@ -18,10 +18,11 @@ Transitioning from manual AWS Console infrastructure to IaC using CDK with TypeS
 
 ### Technology Decisions
 **Why CDK over CloudFormation or Terraform?**
-- This was a personal decision for me, I am most comfortable with Terraform because it is cloud agnostic meaning it can be used for multiple cloud providers. I have less experience with CDK, but learning its benefits with CloudFormation Stacks encouraged me to expand my hand on skills.
+- This was a personal decision for me, I am most comfortable with Terraform because it is cloud agnostic meaning it can be used for multiple cloud providers. I have less experience with CDK, but learning its benefits with CloudFormation Stacks encouraged me to expand my hands-on skills.
 
 **Why TypeScript over Python/other languages?**
-- ### Why TypeScript Over Python?
+
+### Why TypeScript Over Python?
 
 I chose TypeScript for its compile-time type checking, which catches errors before deployment. Coming from Terraform, I made several syntax mistakes during development (like `ec2.peer` vs `ec2.Peer` - capitalization matters in TypeScript). The TypeScript compiler caught these immediately, whereas Python would have failed during CDK synthesis or deployment, wasting time and AWS resources.
 
@@ -31,7 +32,7 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 
 ### Architecture Design Decisions
 
-![alt text](Screenshots/Architecture_Diagram.png)
+![Architecture Diagram](Screenshots/Architecture_Diagram.png)
 
 **VPC Design:**
 - Chose 2 AZs for high availability while keeping costs reasonable for portfolio project
@@ -51,13 +52,13 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 
 ### Phase 1: VPC & Networking
 
-**Thought Proccess**
+**Thought Process**
 - Specified 2 AZs to achieve high availability and withstand disasters
-- No NAT gateways to reduce cost. NAT gateways are meant to expose private resources to the public, We do not want the DB to be publicly accessible so that reduces cost and secures our DB.
+- No NAT gateways to reduce cost. NAT Gateways allow private resources to initiate outbound connections to the internet. We do not want the DB to be publicly accessible so that reduces cost and secures our DB.
 - Defined 1 Public Subnet and 1 Private Subnet, each AZ will have their own
 
 **Code Snippet:**
-![alt text](Screenshots/vpc_config.png)
+![VPC Configuration](Screenshots/vpc_config.png)
 
 **Decision Point: Realized CDK automatically creates Internet Gateway...**
 In terraform you have to create/define the IGW yourself, one of the benefits of CDK is CDK automatically handles the IGW for you. Typically you want to double check any automatic/default resources due to security reasons, but IGW is not providing access to resources, it is simply a way into the vpc.
@@ -70,14 +71,14 @@ Configured two ingress rules to balance accessibility with security:
 
 **Decision Point:** Initially considered allowing SSH from anywhere, but restricted it to my specific IP following the principle of least privilege. This demonstrates proper security practices for production environments.
 
-![alt text](Screenshots/EC2_SecurityGroups.png)
+![EC2 Security Groups](Screenshots/EC2_SecurityGroups.png)
 
 **RDS Security Group:**
 Implemented defense-in-depth by isolating the database layer:
 - **Ingress:** MySQL traffic (port 3306) only from the EC2 Security Group - ensures only the application tier can access the database
 - **Egress:** Disabled all outbound traffic (`allowAllOutbound: false`) - RDS doesn't need to initiate external connections
 
-![alt text](Screenshots/RDS_SG.png)
+![RDS Security Group](Screenshots/RDS_SG.png)
 
 **Security Benefit:** Even if the EC2 instance were compromised, the attacker could only access RDS via the MySQL protocol. The database has no internet access and cannot be reached directly from the public internet.
 
@@ -87,7 +88,7 @@ Implemented defense-in-depth by isolating the database layer:
 - SecretsManagerReadWrite: For EC2 to retrieve RDS credentials
 - AmazonSSMManagedInstanceCore: For keyless, secure access
 
-![alt text](Screenshots/IAM_ROLES.png)
+![IAM Roles](Screenshots/IAM_ROLES.png)
 
 ---
 
@@ -163,9 +164,9 @@ Waited 1-2 minutes for deletion to complete, then successfully ran:
 ```bash
 cdk bootstrap
 ✅ Environment aws://533931877449/us-east-1 bootstrapped.
-
-TechHealth-Project/Screenshots/CDK bootstrap success.png
 ```
+
+![Bootstrap Success](Screenshots/CDK_bootstrap_success.png)
 
 **What These Errors Taught Me:**
 - CloudFormation stacks can fail and leave resources behind in inconsistent states
@@ -178,22 +179,22 @@ TechHealth-Project/Screenshots/CDK bootstrap success.png
 As stated earlier I am used to Terraform syntax, I decided to think of the CDK in Terraform terms. Although written differently, the same resources/parameters are being defined in the code.
 
 **TypeScript Differences:**
-- Case sensitivity (ec2.(P)eer vs ec2.(p)eer)
+- Case sensitivity (ec2.Peer vs ec2.peer)
 - Object syntax with colons not equals
 - Indentation works differently for each line of code
 
 **Specific Errors I Hit:**
-- Capitolization:
+- Capitalization:
 ```typescript
 // ❌ Wrong
-ec2.(p)eer.ipv4('...')
+ec2.peer.ipv4('...')
 
 // ✅ Correct  
-ec2.(P)eer.ipv4('...')
+ec2.Peer.ipv4('...')
 ```
 
 **What I Learned:**
-I learned that although the code is written differently, the syntax and overall code has the same purpose to create the infrastructure. Typescript with CDK is valueable option as it will help you catch syntax errors before deplyement. I also learned that CDK with Typescript is more similar to Terraform than I originally thought.
+I learned that although the code is written differently, the syntax and overall code has the same purpose to create the infrastructure. TypeScript with CDK is valuable option as it will help you catch syntax errors before deployment. I also learned that CDK with TypeScript is more similar to Terraform than I originally thought.
 
 ---
 
@@ -204,8 +205,7 @@ I learned that although the code is written differently, the syntax and overall 
 **Pre-Deployment Synthesis:**
 Before deployment, CDK synthesized the CloudFormation template, which took about 2.6 seconds. During this phase, CDK built custom resources like the VPC default security group handler and published assets to S3.
 
-![alt text](<Screenshots/CDK bootstrap and synth.png>)
-
+![CDK Bootstrap and Synth](Screenshots/cdk-bootstrap-synth.png)
 
 **Security Review Prompt:**
 CDK displayed a comprehensive preview of changes before deployment, showing:
@@ -233,7 +233,7 @@ TechHealthProjectStack.RDSEndpoint = techhealthprojectstack-privatedba34df42a-nu
 TechHealthProjectStack.DatabaseSecretArn = arn:aws:secretsmanager:us-east-1:533931877449:secret:TechHealthProjectStackPriva-OwHzMCVKbti6-fKVIIm
 ```
 
-![alt text](<Screenshots/y&n approval + outputs.png>)
+![Deployment Outputs](Screenshots/deployment-outputs.png)
 
 **Observation:**
 The RDS endpoint's random suffix (`nugu0zshpuwx`) and the Secret ARN's unique identifier demonstrate AWS's approach to ensuring unique resource names. These outputs proved essential for the testing phase - without them, I would have needed to manually locate each resource in the AWS Console.
@@ -251,64 +251,75 @@ The RDS endpoint's random suffix (`nugu0zshpuwx`) and the Secret ARN's unique id
 **SSM Systems Manager Role**
 Typically SSH keys would be required to connect to the RDS instance, however we created an IAM role for 'Systems Manager' (SSM) which allows connection to the EC2 instance without the need of SSH key.
 
-![alt text](<Screenshots/systems manager start.png>)
+![Systems Manager Start](Screenshots/systems-manager-start.png)
 
 **Secrets Manager Role**
-To connect to the database we must first retireve the Database password as this is a requirement for connecting to the database. To connect, we use the command 'aws Secrets Manager get-secret-value'
+To connect to the database we must first retrieve the Database password as this is a requirement for connecting to the database. To connect, we use the command 'aws secretsmanager get-secret-value'
 
-![alt text](Screenshots/SECRETS_MANAGER_CREDENTIALS.png)
+![Secrets Manager Credentials](Screenshots/SECRETS_MANAGER_CREDENTIALS.png)
 
 **MySQL Connection Test:**
-As mentioned earlier for our Security Groups, we stated that the only traffic allowed to reach the RDS DB is MySQL traffic originating from the EC2 instance. Once connected, we prove connection to the EC2 with commands such as 'Show Databases' which outputs 'information_schema: mysql', 'Show Version' that outputs 'Version 8.0.42' and 'Select Now' that outputs the current date and time, which at the time was '2025-10-30 03:39:26'.
+As mentioned earlier for our Security Groups, we stated that the only traffic allowed to reach the RDS DB is MySQL traffic originating from the EC2 instance. Once connected, we prove connection to the EC2 with commands such as 'Show Databases' which outputs 'information_schema: mysql', 'Show Version' that outputs 'Version 8.0.42' and 'Select Now' that outputs the current date and time.
 
-![alt text](<Screenshots/SQL commands.png>)
+![SQL Commands](Screenshots/sql-commands.png)
 
 ---
 
-## Proof of Deployment in console
+## Proof of Deployment in Console
 **VPC**
-![alt text](Screenshots/vpc_console.png)
-**Subnets**
-![alt text](Screenshots/subnets_console.png)
-**Security Groups**
-![alt text](Screenshots/subnets_console.png)
-**EC2 Instance**
-![alt text](<Screenshots/EC2 console.png>)
-**RDS Instance**
-![alt text](<Screenshots/RDS console.png>)
-**S3 Bucket**
-![alt text](<Screenshots/S3 console.png>)
-**IAM Roles**
-![alt text](<Screenshots/IAM Role console.png>)
+![VPC Console](Screenshots/vpc-console.png)
 
-## Ensure IAC is repeatable
+**Subnets**
+![Subnets Console](Screenshots/subnets-console.png)
+
+**Security Groups**
+![alt text](Screenshots/security-groups-console.png)
+
+**EC2 Instance**
+![alt text](Screenshots/ec2-console.png)
+
+**RDS Instance**
+![RDS Console](Screenshots/rds-console.png)
+
+**S3 Bucket**
+![S3 Bucket Console](Screenshots/s3-console.png)
+
+**IAM Roles**
+![IAM Roles Console](Screenshots/iam-roles-console.png)
+
+---
+
+## Ensure IaC is Repeatable
+
 ### Redeployment Documentation
+
 **Delete Current Resources First**
 - Ran the command
 ```bash
 cdk destroy
 ```
-![alt text](<Screenshots/cdk destroy.png>)
+![CDK Destroy](Screenshots/cdk-destroy.png)
 
 **Attempted Redeploy**
-- Received an error that the Stack and bucket names "already existed" even after running "CDK destroy"
+- Received an error that the Stack and bucket names "already existed" even after running "cdk destroy"
 
 **Deleted the Stack Manually**
 - Ran 
 ```bash
-aws cloudformation delete-stack --stackname CDKToolKit --region us-east-1
+aws cloudformation delete-stack --stack-name CDKToolkit --region us-east-1
 ```
-This is a stack that gets created when using CDK, when running CDK destroy it deleted our TechHealth Stack but it did not delete the CKDToolKit stack. By running this command I took care of the CloudFormation stack deletion.
-![alt text](<Screenshots/Delete CFN stack (CDK Toolkit).png>)
+This is a stack that gets created when using CDK, when running cdk destroy it deleted our TechHealth Stack but it did not delete the CDKToolkit stack. By running this command I took care of the CloudFormation stack deletion.
+
+![Delete CDK Toolkit](Screenshots/delete-cdk-toolkit.png)
 
 **Delete Bucket Versions**
-- A similar issue occured with the S3 buckets, even though CDK destroy was ran CDK retains S3 buckets to avoid accidental deletion. This means that there are existing versions of the buckets that still exist despite emptying the latest version of the bucket. These previous versions aren't even visible unless you toggle the versions tab in the console.
+- A similar issue occurred with the S3 buckets, even though cdk destroy was ran CDK retains S3 buckets to avoid accidental deletion. This means that there are existing versions of the buckets that still exist despite emptying the latest version of the bucket. These previous versions aren't even visible unless you toggle the versions tab in the console.
 
 **S3 buckets versions turned off**
-![alt text](<Screenshots/Bucket versions off (console).png>)
+![S3 Versions Off](Screenshots/s3-versions-off.png)
 
 **S3 buckets versions turned on**
-![alt text](<Screenshots/Bucket versions on (console).png>)
+![S3 Versions On](Screenshots/s3-versions-on.png)
 
 **Successfully deleted the bucket**
 - Ran the following aws CLI command to delete the bucket directly from the command line:
@@ -316,11 +327,11 @@ This is a stack that gets created when using CDK, when running CDK destroy it de
 aws s3 rb s3://cdk-hnb659fds-assets-533931877449-us-east-1
 ```
 
-- Received comfirmation from terminal that the bucket was deleted with:
+- Received confirmation from terminal that the bucket was deleted with:
 ```bash
 remove_bucket: cdk-hnb659fds-assets-533931877449-us-east-1
 ```
-![alt text](<Screenshots/Bucket deleted successfully.png>)
+![Bucket Deleted](Screenshots/bucket-deleted.png)
 
 **Successfully Redeployed with no issues**
 - Ran the following:
@@ -328,98 +339,109 @@ remove_bucket: cdk-hnb659fds-assets-533931877449-us-east-1
 cdk deploy --all
 ```
 - Redeploy was a success
-![alt text](<Screenshots/re-deploy successful.png>)
 
-## Decided to Add CI/CD pipeline
+![Redeploy Success](Screenshots/redeploy-success.png)
+
+---
+
+## CI/CD Pipeline Implementation
 
 ### CI/CD Overview
-- CI/CD pipeline provides consitent benefits to ensuring no updates to our IAC is broken. This prevents a multitude of issues that can break the infrastructure. CI/CD is a best practice used in real world projects to avoid costly issues that can ruin infrastructure. For my implementation of the CI/CD pipeline, I will utilize github actions to ensure that any push to the repository goes through 2 phases of validating code, and automatically deploying to AWS.
+- CI/CD pipeline provides consistent benefits to ensuring no updates to our IaC is broken. This prevents a multitude of issues that can break the infrastructure. CI/CD is a best practice used in real world projects to avoid costly issues that can ruin infrastructure. For my implementation of the CI/CD pipeline, I will utilize github actions to ensure that any push to the repository goes through 2 phases of validating code, and automatically deploying to AWS.
 
-# Setup Process
+### Setup Process
+
 1. **Add AWS credentials to the github repository**
-  a. Go to GitHub repo
-  b. Click Settings → Secrets and variables → Actions
-  c. Click New repository secret
-  d. Add the following secrets:
-  Name: AWS_ACCESS_KEY_ID
-  Value: <Your AWS access key>
+   - Go to GitHub repo
+   - Click Settings → Secrets and variables → Actions
+   - Click New repository secret
+   - Add the following secrets:
+```
+   Name: AWS_ACCESS_KEY_ID
+   Value: <Your AWS access key>
 
-  Name: AWS_SECRET_ACCESS_KEY  
-  Value: <Your AWS secret key>
+   Name: AWS_SECRET_ACCESS_KEY  
+   Value: <Your AWS secret key>
 
-  Name: AWS_REGION
-  Value: <Desired AWS region>
+   Name: AWS_REGION
+   Value: <Desired AWS region>
+```
 
-2. **CREATE A SIMPLE FILE: .github/workflows/deploy.yml**
-name: Deploy Infrastructure (Validates code, then deploys to AWS automatically)
+2. **Create the workflow file: `.github/workflows/deploy.yml`**
+```yaml
+name: Deploy Infrastructure
 
-# Ran this workflow when pushing code
+# Run this workflow when you push code
 on:
   push:
-    branches: [ main ] 
+    branches: [ main ]
 
-jobs: 
+jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     
-    steps: 
-      # Get your code 
-      - uses: actions/checkout@v4 
+    steps:
+      # Get your code
+      - uses: actions/checkout@v4
       
       # Install Node.js
-      - uses: actions/setup-node@v4 
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18' 
+          node-version: '18'
       
       # Install your project dependencies
-      - run: npm install 
+      - run: npm install
       
       # Check if CDK code is valid
-      - run: npm run cdk synth 
+      - run: npm run cdk synth
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
       # Deploy to AWS
-      - run: npm run cdk deploy -- --require-approval never 
+      - run: npm run cdk deploy -- --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
+```
 
-# Push to github
 3. **Push code to github**
-git add . --> This adds all files in the selected directory (folder)
-git commit -m "Add CI/CD pipeline" --> This primes the added files in a "deployment ready" state
-git push origin main --> The command that actually pushes the code to the repository
+```bash
+git add .
+git commit -m "Add CI/CD pipeline"
+git push origin main
+```
 
-## Results of push to Pipeline
+### Results of Push to Pipeline
 **Successful Push and github action**
-![alt text](<Screenshots/Github action success.png>)
+![GitHub Actions Success](Screenshots/github-actions-success.png)
+
+---
 
 ## Key Learnings
 
 ### Technical Learnings
 1. **CDK Abstractions vs Terraform:** CDK provides higher-level constructs (Lvl 1, 2 and 3).
 2. **TypeScript for Infrastructure:** TypeScript safely caught several errors prior to deployment.
-3. **AWS Best Practices:** Learned about SSM Session Manager, Secrets Manager to grant Role Base Acess Controls (RBAC) that guarantees least privelige.
+3. **AWS Best Practices:** Learned about SSM Session Manager, Secrets Manager to grant Role Based Access Controls (RBAC) that guarantees least privilege.
 
 ### Process Learnings  
 1. **Documentation is Critical:** Ensured that I documented the errors that occurred as it helps me document the fixes to those error for future work, it also records the process of getting the desired end result.
-2. **Reading Error Messages:** Learned how to carefully identify some key syntax errors before attempting to deploy the infrastructure. I specifically learned that capitolization must be correct within constructs to keep the infrastructure suitable for deployment.
-3. **Iterative Development:** Breaking down the problem into multiple sections int the order of VPC → Security → EC2 → RDS. Following this format allows each section to recieve complete focus before moving on to ensure best practices from beginning to end. Following the order of Networking → Security → Resources is an effective workflow to follow.
+2. **Reading Error Messages:** Learned how to carefully identify some key syntax errors before attempting to deploy the infrastructure. I specifically learned that capitalization must be correct within constructs to keep the infrastructure suitable for deployment.
+3. **Iterative Development:** Breaking down the problem into multiple sections in the order of VPC → Security → EC2 → RDS. Following this format allows each section to receive complete focus before moving on to ensure best practices from beginning to end. Following the order of Networking → Security → Resources is an effective workflow to follow.
 
 ### What I'd Do Differently
 - Start with `cdk init` from the beginning
 - Set up AWS CLI region configuration earlier
-- Review syntax for capitolization
+- Review syntax for capitalization
 
 ---
 
 ## Final Thoughts
 
-This project further showed me that the AWS CDK has many benefits that make writting code more effecient before deploying code.
+This project further showed me that the AWS CDK has many benefits that make writing code more efficient before deploying code.
 
 **Portfolio Value:**
 This implementation demonstrates:
@@ -434,9 +456,12 @@ If I were to expand this project, I would:
 - Add monitoring dashboards
 - Re-write CDK code with Lvl 1, 2 constructs
 
-**Connect With ME**
+---
 
-Name: Travon Mayo
-Email: travondm2@gmail.com
-Github: https://github.com/vonongit/TechHealth-CDK-Migration
-LinkedIn: https://www.linkedin.com/in/travon-mayo/
+## Connect With Me
+
+**Name:** Travon Mayo  
+**Email:** travondm2@gmail.com  
+**GitHub:** https://github.com/vonongit/TechHealth-CDK-Migration  
+**LinkedIn:** https://www.linkedin.com/in/travon-mayo/
+```
