@@ -166,7 +166,7 @@ cdk bootstrap
 ✅ Environment aws://533931877449/us-east-1 bootstrapped.
 ```
 
-![Bootstrap Success](Screenshots/CDK_bootstrap_success.png)
+![cdk-bootstrap-success](Screenshots/cdk-bootstrap-success.png)
 
 **What These Errors Taught Me:**
 - CloudFormation stacks can fail and leave resources behind in inconsistent states
@@ -233,7 +233,7 @@ TechHealthProjectStack.RDSEndpoint = techhealthprojectstack-privatedba34df42a-nu
 TechHealthProjectStack.DatabaseSecretArn = arn:aws:secretsmanager:us-east-1:533931877449:secret:TechHealthProjectStackPriva-OwHzMCVKbti6-fKVIIm
 ```
 
-![Deployment Outputs](Screenshots/deployment-outputs.png)
+![deployment-outputs](Screenshots/deployment-outputs.png)
 
 **Observation:**
 The RDS endpoint's random suffix (`nugu0zshpuwx`) and the Secret ARN's unique identifier demonstrate AWS's approach to ensuring unique resource names. These outputs proved essential for the testing phase - without them, I would have needed to manually locate each resource in the AWS Console.
@@ -265,26 +265,26 @@ As mentioned earlier for our Security Groups, we stated that the only traffic al
 
 ---
 
-## Proof of Deployment in Console
-**VPC**
+# Proof of Deployment in Console
+### VPC
 ![VPC Console](Screenshots/vpc-console.png)
 
-**Subnets**
+### Subnets
 ![Subnets Console](Screenshots/subnets-console.png)
 
-**Security Groups**
+### Security Groups
 ![alt text](Screenshots/security-groups-console.png)
 
-**EC2 Instance**
+### EC2 Instance
 ![alt text](Screenshots/ec2-console.png)
 
-**RDS Instance**
+### RDS Instance
 ![RDS Console](Screenshots/rds-console.png)
 
-**S3 Bucket**
+### S3 Bucket
 ![S3 Bucket Console](Screenshots/s3-console.png)
 
-**IAM Roles**
+### IAM Roles
 ![IAM Roles Console](Screenshots/iam-roles-console.png)
 
 ---
@@ -316,10 +316,10 @@ This is a stack that gets created when using CDK, when running cdk destroy it de
 - A similar issue occurred with the S3 buckets, even though cdk destroy was ran CDK retains S3 buckets to avoid accidental deletion. This means that there are existing versions of the buckets that still exist despite emptying the latest version of the bucket. These previous versions aren't even visible unless you toggle the versions tab in the console.
 
 **S3 buckets versions turned off**
-![S3 Versions Off](Screenshots/s3-versions-off.png)
+![s3-bucket-versions-off-console](Screenshots/s3-bucket-versions-off-console.png)
 
 **S3 buckets versions turned on**
-![S3 Versions On](Screenshots/s3-versions-on.png)
+![s3-bucket-versions-on-console](Screenshots/s3-bucket-versions-on-console.png)
 
 **Successfully deleted the bucket**
 - Ran the following aws CLI command to delete the bucket directly from the command line:
