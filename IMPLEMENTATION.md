@@ -543,6 +543,14 @@ If I were to expand this project, I would:
 
 ---
 
-## Connect With Me
+## 🤝 Connect With Me
 
-**Travon Mayo** | [GitHub](https://github.com/vonongit) | [LinkedIn](https://www.linkedin.com/in/travon-mayo/) | [Email](mailto:travondm2@gmail.com)
+[![Email](https://img.shields.io/badge/EMAIL-TRAVONDM2%40GMAIL.COM-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:travondm2@gmail.com)
+[![GitHub](https://img.shields.io/badge/GITHUB-VONONGIT-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vonongit)
+[![LinkedIn](https://img.shields.io/badge/LINKEDIN-TRAVON%20MAYO-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/travon-mayo/)
+
+---
+
+⭐ **If you found this project helpful, please consider giving it a star!**
+
+*This was a learning project based on a real-world scenario from Cloud Engineer Academy.*
