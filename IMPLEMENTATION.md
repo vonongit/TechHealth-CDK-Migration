@@ -228,9 +228,9 @@ After confirming with 'y', CloudFormation began creating resources. The deployme
 **Successful Outputs:**
 The deployment completed successfully with three CloudFormation outputs:
 ```bash
+TechHealthProjectStack.DatabaseSecretArn = arn:aws:secretsmanager:us-east-1:533931877449:secret:TechHealthProjectStackPriva-OwHzMCVKbti6-fKVIIm
 TechHealthProjectStack.EC2PublicIP = 52.206.106.6
 TechHealthProjectStack.RDSEndpoint = techhealthprojectstack-privatedba34df42a-nugu0zshpuwx.c29yw6qc0sfh.us-east-1.rds.amazonaws.com
-TechHealthProjectStack.DatabaseSecretArn = arn:aws:secretsmanager:us-east-1:533931877449:secret:TechHealthProjectStackPriva-OwHzMCVKbti6-fKVIIm
 ```
 
 ![deployment-outputs](Screenshots/deployment-outputs.png)
