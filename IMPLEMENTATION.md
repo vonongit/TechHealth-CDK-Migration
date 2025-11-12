@@ -32,7 +32,7 @@ I chose TypeScript for its compile-time type checking, which catches errors befo
 
 ### Architecture Design Decisions
 
-![Architecture Diagram](Screenshots/Architecture_Diagram.png)
+![architecture-diagram](Screenshots/architecture-diagram.png)
 
 **VPC Design:**
 - Chose 2 AZs for high availability while keeping costs reasonable for portfolio project
@@ -205,7 +205,7 @@ I learned that although the code is written differently, the syntax and overall 
 **Pre-Deployment Synthesis:**
 Before deployment, CDK synthesized the CloudFormation template, which took about 2.6 seconds. During this phase, CDK built custom resources like the VPC default security group handler and published assets to S3.
 
-![CDK Bootstrap and Synth](Screenshots/cdk-bootstrap-synth.png)
+![cdk-bootstrap-synth](Screenshots/cdk-bootstrap-synth.png)
 
 **Security Review Prompt:**
 CDK displayed a comprehensive preview of changes before deployment, showing:
@@ -313,7 +313,10 @@ This is a stack that gets created when using CDK, when running cdk destroy it de
 ![Delete CDK Toolkit](Screenshots/delete-cdk-toolkit.png)
 
 **Delete Bucket Versions**
-- A similar issue occurred with the S3 buckets, even though cdk destroy was ran CDK retains S3 buckets to avoid accidental deletion. This means that there are existing versions of the buckets that still exist despite emptying the latest version of the bucket. These previous versions aren't even visible unless you toggle the versions tab in the console.
+- A similar issue occurred with the S3 buckets, even though cdk destroy was ran CDK retains S3 buckets to avoid accidental deletion. This means that there are existing versions of the buckets that still exist despite emptying the latest version of the bucket. These previous versions aren't even visible unless you toggle the versions tab in the console. 
+
+**Resolution**
+- The resolution to this issue was to turn the S3 bucket versions on and delete all versions and content with it, after doing so the bucket was able to be fully deleted.
 
 **S3 buckets versions turned off**
 ![s3-bucket-versions-off-console](Screenshots/s3-bucket-versions-off-console.png)
@@ -331,7 +334,7 @@ aws s3 rb s3://cdk-hnb659fds-assets-533931877449-us-east-1
 ```bash
 remove_bucket: cdk-hnb659fds-assets-533931877449-us-east-1
 ```
-![Bucket Deleted](Screenshots/bucket-deleted.png)
+![bucket-deleted](Screenshots/bucket-deleted.png)
 
 **Successfully Redeployed with no issues**
 - Ran the following:
@@ -340,7 +343,7 @@ cdk deploy --all
 ```
 - Redeploy was a success
 
-![Redeploy Success](Screenshots/redeploy-success.png)
+![redeploy-success](Screenshots/redeploy-success.png)
 
 ---
 
@@ -416,7 +419,7 @@ git push origin main
 
 ### Results of Push to Pipeline
 **Successful Push and github action**
-![GitHub Actions Success](Screenshots/github-actions-success.png)
+![github-actions-success](Screenshots/github-actions-success.png)
 
 ---
 
