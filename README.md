@@ -82,10 +82,12 @@ Setup: Add AWS credentials as GitHub secrets, and the pipeline handles the rest 
 ### Deployment Process
 
 Implemented full IaC workflow:
-```bashcdk bootstrap  # One-time environment setup
+```bash
+cdk bootstrap  # One-time environment setup
 cdk synth      # Generate CloudFormation templates
 cdk diff       # Preview changes before deployment
 cdk deploy     # Deploy infrastructure
+```
 
 ### Challenges Solved
 
@@ -105,12 +107,16 @@ cdk deploy     # Deploy infrastructure
 **Prerequisites:** Node.js, AWS CLI, AWS CDK, configured AWS credentials
 
 **Deploy:**
-```bashnpm install
+```bash
+npm install
 cdk bootstrap aws://ACCOUNT-ID/AWS-REGION
 cdk deploy --all
+```
 
 **Teardown:**
-```bashcdk destroy --all
+```bash
+cdk destroy --all
+```
 
 ---
 
