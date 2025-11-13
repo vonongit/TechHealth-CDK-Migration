@@ -162,19 +162,19 @@ This foundation positions the organization to rapidly innovate while maintaining
 
 ---
 
----
-
----
-
 ## 🤝 Connect With Me
 
-![Email](https://img.shields.io/badge/EMAIL-travondm2@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)
-
-![GitHub](https://img.shields.io/badge/GITHUB-vonongit-181717?style=for-the-badge&logo=github&logoColor=white)
-
-![LinkedIn](https://img.shields.io/badge/LINKEDIN-Travon%20Mayo-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)
-
-[Email Me](mailto:travondm2@gmail.com) | [View GitHub](https://github.com/vonongit) | [Connect on LinkedIn](https://www.linkedin.com/in/travon-mayo/)
+<p align="center">
+  <a href="mailto:travondm2@gmail.com">
+    <img src="https://img.shields.io/badge/EMAIL-TRAVONDM2%40GMAIL.COM-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+  </a>
+  <a href="https://github.com/vonongit">
+    <img src="https://img.shields.io/badge/GITHUB-VONONGIT-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+  <a href="https://www.linkedin.com/in/travon-mayo/">
+    <img src="https://img.shields.io/badge/LINKEDIN-TRAVON%20MAYO-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+  </a>
+</p>
 
 ---
 
