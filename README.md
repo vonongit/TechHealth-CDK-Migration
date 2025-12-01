@@ -1,7 +1,5 @@
 # TechHealth Infrastructure Migration
 
-[![Deploy Infrastructure](https://github.com/vonongit/TechHealth-CDK-Migration/actions/workflows/deploy.yml/badge.svg)](https://github.com/vonongit/TechHealth-CDK-Migration/actions/workflows/deploy.yml)
-
 Converting a manually-deployed healthcare platform from click-ops to Infrastructure as Code using AWS CDK.
 
 🚨 View "DOCUMENTATION.md" to see full journey performing this project 🚨"
