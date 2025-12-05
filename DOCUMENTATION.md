@@ -232,7 +232,7 @@ ec2.Peer.ipv4('...')
 
 **What I Learned:**
 
-I learned that although the code is written differently, the syntax and overall code has the same purpose to create the infrastructure. TypeScript with CDK is valuable option as it will help you catch syntax errors before deployment. I also learned that CDK with TypeScript is more similar to Terraform than I originally thought.
+I learned that although the code is written differently, the syntax and overall code has the same purpose to create the infrastructure. TypeScript with CDK is a valuable option as it will help you catch syntax errors before deployment. I also learned that CDK with TypeScript is more similar to Terraform than I originally thought.
 
 ---
 
@@ -297,7 +297,7 @@ After successful deployment the first task was to connect to the EC2 instance. T
 
 **SSM Systems Manager Role**
 
-Typically SSH keys would be required to connect to the RDS instance, however we created an IAM role for 'Systems Manager' (SSM) which allows connection to the EC2 instance without the need of SSH key.
+Typically SSH keys would be required to connect to the EC2 instance, however we created an IAM role for 'Systems Manager' (SSM) which allows connection to the EC2 instance without the need of SSH key.
 
 ![Systems Manager Start](Screenshots/systems-manager-start.png)
 
@@ -495,6 +495,8 @@ git push origin main
 **Successful Push and github action:**
 
 ![GitHub Actions Success](Screenshots/github-actions-success.png)
+
+**Impact:** This CI/CD implementation means every infrastructure change is now automatically validated and deployed, reducing the risk of manual errors and providing a complete audit trail of all deployments. This transforms the development workflow from manual, error-prone deployments to a professional, automated pipeline.
 
 ---
 
