@@ -91,7 +91,7 @@ cdk deploy     # Deploy infrastructure
 
 ### Challenges Solved
 
-**Detailed in [IMPLEMENTATION.md](IMPLEMENTATION.md):**
+**Detailed in [DOCUMENTATION.md](DOCUMENTATION.md):**
 
 - **CDK Project Structure** - Learned proper CDK initialization requirements
 - **Bootstrap Stack Failures** - Resolved S3 bucket conflicts from failed attempts
