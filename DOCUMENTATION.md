@@ -541,7 +541,7 @@ If I were to expand this project, I would:
 
 - Add automated testing with CDK assertions
 - Add monitoring dashboards
-- Re-write CDK code with Lvl 1, 2 constructs
+- Re-write CDK code with Lvl 3 constructs
 
 ---
 
